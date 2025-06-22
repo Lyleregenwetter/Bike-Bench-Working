@@ -13,7 +13,7 @@ def render_to_gif(
     gif_filename=None,
     duration=0.1,
     max_frames=None,
-    rider_description = None
+    rider_dims = None
 ):
     """
     Renders each row of a DataFrame using the given renderer and creates a GIF.
@@ -24,6 +24,7 @@ def render_to_gif(
         gif_filename (str or None): If provided, saves GIF to this path. Otherwise, only returns it in memory.
         duration (float): Frame duration in seconds.
         max_frames (int or None): If set, limits to the first N frames.
+        rider_dims (array-like or None): Optional dimensions for the rider, if applicable.
 
     Returns:
         BytesIO: In-memory GIF object (can be passed to IPython.display.Image).
@@ -40,7 +41,7 @@ def render_to_gif(
 
     for i, (_, row) in enumerate(tqdm(data_iter, desc="Rendering frames", total=max_frames or len(data))):
         try:
-            res = renderer.render_clip(row, rider_description=rider_description)
+            res = renderer.render_clip(row, rider_dims=rider_dims)
             svg_bytes = res.image_bytes
 
             png_path = os.path.join(temp_dir, f"frame_{i:03d}.png")

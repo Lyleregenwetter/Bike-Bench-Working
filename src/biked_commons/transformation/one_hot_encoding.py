@@ -163,7 +163,7 @@ def decode_to_mixed(encoded_df: pd.DataFrame) -> pd.DataFrame:
     for col in BOOLEAN_COLUMNS:
         if col in out.columns and col not in FAKE_BOOLEAN_COLUMNS:
             out[col] = out[col].round().astype(int).astype(bool)
-
+    
     return out
 
 

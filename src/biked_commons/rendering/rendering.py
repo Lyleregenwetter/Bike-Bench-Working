@@ -27,9 +27,9 @@ class RenderingEngine:
     def render_xml(self, bike_xml: str) -> RenderingResult:
         return RenderingResult(image_bytes=(self._render(bike_xml)), xml_file=bike_xml)
 
-    def render_biked(self, biked: dict, rider_dims) -> RenderingResult:
-        xml = FILE_BUILDER.build_cad_from_biked(biked, self.standard_bike_xml, rider_dims)
-        return RenderingResult(image_bytes=(self._render(xml)), xml_file=xml)
+    # def render_biked(self, biked: dict, rider_dims) -> RenderingResult:
+    #     xml = FILE_BUILDER.build_cad_from_biked(biked, self.standard_bike_xml, rider_dims)
+    #     return RenderingResult(image_bytes=(self._render(xml)), xml_file=xml)
 
     def render_clip(self, clip: dict, rider_dims) -> RenderingResult:
         xml = FILE_BUILDER.build_cad_from_clip(clip, self.standard_bike_xml, rider_dims)

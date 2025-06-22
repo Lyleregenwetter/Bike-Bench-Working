@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from typing import Optional, Sequence
 
 from biked_commons.transformation.one_hot_encoding import decode_to_mixed
 from biked_commons.xml_handling.bike_xml_handler import BikeXmlHandler
@@ -23,24 +24,22 @@ OPTIMIZED_TO_CAD = {
 
 
 class BikeCadFileBuilder:
-    def build_cad_from_biked(self, biked: dict, seed_bike_xml: str, rider_dims = None) -> str:
-        xml_handler = BikeXmlHandler()
-        xml_handler.set_xml(seed_bike_xml)
-        for response_key, cad_key in OPTIMIZED_TO_CAD.items():
-            self._update_xml(xml_handler, cad_key, biked[response_key])
-        if rider_dims:
-            xml_handler.add_or_update("Display RIDER", "true")
-        return xml_handler.get_content_string()
+    # def build_cad_from_biked(self, biked: dict, seed_bike_xml: str, rider_dims = None) -> str:
+    #     xml_handler = BikeXmlHandler()
+    #     xml_handler.set_xml(seed_bike_xml)
+    #     for response_key, cad_key in OPTIMIZED_TO_CAD.items():
+    #         self._update_xml(xml_handler, cad_key, biked[response_key])
+    #     if rider_dims:
+    #         xml_handler.add_or_update("Display RIDER", "true")
+    #     return xml_handler.get_content_string()
 
-    def build_cad_from_clip(self, clip: dict, seed_bike_xml: str, rider_dims = None) -> str:
+    def build_cad_from_clip(self, clip: dict, seed_bike_xml: str, rider_dims: Optional[Sequence[float]] = None) -> str:
         xml_handler = BikeXmlHandler()
         xml_handler.set_xml(seed_bike_xml)
         target_dict = self._to_cad_dict(clip)
-
-        
         self._update_values(xml_handler, target_dict)
-        if rider_dims is not None: #upper_leg	lower_leg	arm_length	torso_length	neck_and_head_length	torso_width
-            rider_dims = 1000 * np.array(rider_dims)
+        if rider_dims is not None: #upper_leg, lower_leg, arm_length, torso_length, neck_and_head_length, torso_width
+            rider_dims = 1000 * np.array(rider_dims).flatten()  # Convert to mm
             xml_handler.add_or_update("Display RIDER", "true")
             xml_handler.add_or_update("UPPERARMLENGTH", str(rider_dims[2]/2))
             xml_handler.add_or_update("LOWERARMLENGTH", str(rider_dims[2]/2))
