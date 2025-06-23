@@ -31,7 +31,7 @@ class RenderingEngine:
     #     xml = FILE_BUILDER.build_cad_from_biked(biked, self.standard_bike_xml, rider_dims)
     #     return RenderingResult(image_bytes=(self._render(xml)), xml_file=xml)
 
-    def render_clip(self, clip: dict, rider_dims) -> RenderingResult:
+    def render_clip(self, clip: dict, rider_dims=None) -> RenderingResult:
         xml = FILE_BUILDER.build_cad_from_clip(clip, self.standard_bike_xml, rider_dims)
         return RenderingResult(image_bytes=(self._render(xml)), xml_file=xml)
 
